@@ -7,6 +7,24 @@ counter = 0
 blink_enable = False
 blink_speed = 0.5
 
+def run_transition_effect(self):
+    global blink_enable
+    global blink_speed
+
+    print("Transition effect...")
+
+    old_blink_enable = blink_enable
+    old_blink_speed = blink_speed
+
+    blink_enable = True
+    blink_speed = 0.1
+    sleep(2)
+    blink_enable = old_blink_enable
+    blink_speed = old_blink_speed
+
+    print("Transition effect finished.")
+
+
 def handle_button_press(self):
     global counter
     global blink_enable
@@ -30,7 +48,7 @@ def handle_button_press(self):
     else:
         print("Error: Invalid state")
 
-    sleep(0.2)  # Anti-rebond pour éviter les multiples déclenchements
+    run_transition_effect(self)  # Anti-rebond pour éviter les multiples déclenchements
 
 # Enregistrement de l'interruption sur le bouton pour détecter les appuis
 button.irq(trigger=Pin.IRQ_RISING, handler=handle_button_press)
@@ -44,6 +62,7 @@ while True:
         sleep(blink_speed)
     else:
         led.value(0)
+
 
 
 
